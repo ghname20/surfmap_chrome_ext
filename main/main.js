@@ -68,27 +68,13 @@ var main = main || {};
 			// ======== interface
 			// ********* initialization
 			load_session('default');
-			//var now = new Date();
-			//var startday = new Date('2016-01-10')
-			////	var startday= new Date(wnow-7*86400e3)
-			//var endday = new Date(now - 0 + 86400e3)
-			//
-			//var ts = aux.get_ts(startday);
-			//var te = aux.get_ts(endday);
-			//
-			//$('#edit_range_start').val(ts.substring(0, 10));
-			//$('#edit_range_end').val(te.substring(0, 10));
-			//$('#edit_filter').val('cytoscape');
 
 			main.combo_widget();
 			main.add_listeners();
 			main.install_handlers();
-			//main.init_session_combobox();
 			main.multi_combo.init('#current_combo', '#selection_combo');
 			common.with_active_tab(function (_tab) {
 				$('#key_td').find('input').val("url:" + _tab.url);
-				//get_node_info();
-				//get_graph_data();
 			});
 
 			query_storage();
@@ -1199,42 +1185,6 @@ var main = main || {};
 		}
 	}
 
-	/*
-	var show_url_info = main.show_url_info = function (url) {
-		// node_data, edge, peer, meta
-
-		var node_data = query_graph_common.derive_data({url: url});
-
-		$('#edit_current_key').data('cy_id', null);
-		$('#edit_edge_type').data('cy_id', null);
-		$('#edit_current_key').data('cy_id', null);
-
-		$('#edit_edge_type').val("");
-		$('#edit_peer_key').val("");
-
-		var id = cym.cy_find_element_by_key(node_data.key);
-		if (id) {
-			return;
-		}
-		if ("" == (node_data.key || "")) {
-			node_data.key = node_data.node_type + ":"
-		}
-
-
-		$('#edit_current_key').data('cy_id', id);
-		$('#edit_current_key').val(node_data.key);
-		$('#edit_current_URL').val(node_data.url);
-		$('#edit_node_type').val(node_data.node_type);
-		$('#edit_rating').val(node_data.rating || 0);
-		$('#edit_comment').val(node_data.comment) || "";
-		$('#edit_current_key').focus();
-
-		if (meta) {
-			var meta_html = "<span > degree: " + meta.degree + "</span><br>\n" + "<span> node classes: " + meta.node_classes + "</span><br>\n" + "<span> edge classes: " + meta.edge_classes + "</span><br>\n" ;
-			$('#show_meta').find('span').html(meta_html);
-		}
-	}
-*/
 	var load_node_info_by_key = main.load_node_info_by_key = function (node_type, key) {
 		//var url = $('#edit_current_URL').val();
 		var start = $('#edit_range_start').val();

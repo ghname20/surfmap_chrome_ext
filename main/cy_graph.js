@@ -1378,143 +1378,7 @@ main.cym = main.cym || {};
 			'width': 5,
 			'target-arrow-shape': 'triangle',
 			'opacity': 1,
-			//'target-arrow-color' : '#800',
-			//'target-arrow-color': 'gray',
-			//'source-arrow-color': 'gray',
-			//'line-color': 'red',
-			//'line_color' : config_data.edge_colors['line_default'],
 		})
-		//
-		//    .selector('node.notable').css({
-		//				'border-width': 5,
-		//				'border-color': 'black',
-		//		})
-		//		.selector('node.filtered').css({
-		//				'border-width': 5,
-		//				'border-color': 'black',
-		//		})
-		//		.selector('edge.filtered').css({
-		//				'width' : 10,
-		//        'line-color': 'black',
-		//				'target-arrow-color': 'black',
-		//        'source-arrow-color': 'black',
-		//		})
-		//		.selector('node:selected')
-		//      .css({
-		//        'border-width': 5,
-		//        'border-color': 'red',
-		//        'opacity': 1
-		//      })
-		//		.selector('edge:selected')
-		//      .css({
-		//        'line-color': 'red',
-		//        'target-arrow-color': 'red',
-		//        'source-arrow-color': 'red',
-		//        'opacity': 1
-		//      })
-		//
-/*
-		.selector('node.ids').css({'content': 'data(id)'})
-		.selector('node.names').css({'content': 'data(name)'})
-		.selector('node[degree >= 0][degree < 20]').css({'background-color': function(e) { return e.scratch('hsl') } })
-		.selector('node[degree >= 0][degree < 20]').css({'background-color': function(e) { return e.scratch('hsl') } })
-		.selector('node[degree >= 0][degree < 1]').css({'width': '20px'})
-		.selector('node[degree>=1][degree<3]').css({'width': 'mapData(degree, 1,2, 25, 30'})
-		.selector('node[degree>=3][degree<5]').css({'width': 'mapData(degree, 3,4, 35, 50'})
-		.selector('node[degree>=5][degree<8]').css({'width': 'mapData(degree, 5,7, 60, 90'})
-		.selector('node[degree>=8][degree>=8]').css({'width': 'mapData(degree, 8, 20, 100, 200'})
-		.selector('node[node_type="topic"]').css({'shape': 'diamond', 'background-color': 'blue'})
-		.selector('node[node_type="query"]').css({'shape': 'star'})
-		.selector('node[node_type="url"]').css({'shape': 'roundrectangle'})
-		.selector('node[degree=0]')
-			.css({
-				'width': 10*config_data.node_scale})
-//*/
-
-/*
-		.selector('edge[edge_type = "session"]')
-      .css({
-				'line-color': 'black',
-			})
-		.selector('edge[edge_type = "jump1"]')
-      .css({
-				'line-color': '#88d',
-			})
-		.selector('edge[edge_type = "jump2"],')
-      .css({
-				'line-color': '#88d',
-			})
-		.selector('edge[edge_type = "jump3"]')
-      .css({
-				'line-color': '#88d',
-			})
-		.selector('edge[edge_type = "refjump"]')
-      .css({
-				'line-color': '#88d',
-			})
-		.selector('edge[edge_type = "tab_link"]')
-      .css({
-				'line-color': '#88d',
-			})
-		.selector('edge[edge_type = "nav_link"]')
-      .css({
-				'line-color': '#88d',
-			})
-		.selector('edge[edge_type = "query_idea"]')
-      .css({
-				'line-color': 'yellow',
-			})
-
-		//*/
-
-
-
-/*
-		 ,
-
-						 {
-	    selector : 'node[[degree==0]]',
-	    style : {
-		    'width' : 10*config_data.node_scale
-	    }
-	  } , {
-	    selector : 'node[[degree>=1][degree<2]]',
-	    style : {
-		    'width' : 15*config_data.node_scale
-	    }
-	  } , {
-	    selector : 'node[[degree>=2][degree<3]]',
-	    style : {
-		    'width' : 20*config_data.node_scale
-	    }
-	  } , {
-	    selector : 'node[[degree>=3][degree<5]]',
-	    style : {
-		    'width' : 25*config_data.node_scale
-	    }
-	  } , {
-	    selector : 'node[[degree>=5][degree<8]]',
-	    style : {
-		    'width' : 30*config_data.node_scale
-	    }
-	  } , {
-	    selector : 'node[[degree>=8][degree<13]]',
-	    style : {
-		    'width' : 35*config_data.node_scale
-	    }
-	  } , {
-	    selector : 'node[[degree>=13][degree<21]]',
-	    style : {
-		    'width' : 40*config_data.node_scale
-	    }
-	  } , {
-	    selector : 'node[[degree>=21][degree<34]]',
-	    style : {
-		    'width' : 45*config_data.node_scale
-	    }
-	  }
-
-	  */
 	}
 
 
@@ -1602,11 +1466,6 @@ main.cym = main.cym || {};
 		}
 		else {
 			var key = el && el.data().key;
-			//var node_type = el && el.data().node_type;
-			//if (!key || !node_type) {
-			//	console.log("cannot delete a node without a key and a node_type");
-			//	return;
-			//}
 			console.log('deleting saved edge:', el.data());
 			main.delete_edge(el.data().id);
 		}
@@ -1633,7 +1492,6 @@ main.cym = main.cym || {};
 			choose_node(node);
 		}
 		mark_current_node(node);
-
 	}
 
 
@@ -1682,33 +1540,7 @@ main.cym = main.cym || {};
 		return id;
 	}
 
-	//var cy_find_element_by_url= cym.cy_find_element_by_key = function (key) {
-	//	var nodes= cy.nodes();
-	//	var id;
-	//	for (var i =0;i<nodes.length;i++) {
-	//		var data=nodes[i].data()
-	//		if (data.key==key) {
-	//			id = nodes[i].id()
-	//			break;
-	//		}
-	//	}
-	//	return id;
-	//}
-
-
 	var mark_current_node  = function (node,force) {
-		//var url = node ? node.data().url :null;
-		//url = url == ""? null:url;
-		//if (url) {
-		//	if (highlight_url==node.data().url && !force) {
-		//		return;
-		//	}
-		//	highlight_url=url;
-		//}
-		//else {
-		//
-		//}
-		//
 		if (current_url_node) {
 			current_url_node.removeClass('current_url');
 			//highlight_url = null;
@@ -1719,8 +1551,6 @@ main.cym = main.cym || {};
 			current_url_node.addClass('current_url');
 		}
 	}
-
-
 
 	var mark_current  = cym.mark_current = function (url,key,force) {
 		if (highlight_url==url && !force) {
@@ -1737,17 +1567,7 @@ main.cym = main.cym || {};
 			return;
 		}
 		var node = cy.getElementById(id);
-		//var nodes = cy.nodes();
-		//var url_node, key_node;
-		//for (var i = 0; i < nodes.length; i++) {
-		//	if (nodes[i].data().url== url) {
-		//		url_node =  nodes[i];
-		//		break;
-		//	}
-		//	if (key && key !="" && nodes[i].data().key == key) {
-		//		key_node= nodes[i];
-		//	}
-		//}
+
 		current_url_node=node;
 		if (current_url_node) {
 			current_url_node.addClass('current_url');
@@ -1956,9 +1776,9 @@ main.cym = main.cym || {};
 					position: {
 						my: 'top',
 						at: 'right',
-						adjust: {
-							mouse: true
-						},
+						//adjust: {
+						//	mouse: true
+						//},
 
 						//target: [x+3, y+3],
 						adjust: {
@@ -2019,9 +1839,9 @@ main.cym = main.cym || {};
 					position: {
 						my: 'top left',
 						at: 'bottom right',
-						adjust: {
-							mouse: true
-						},
+						//adjust: {
+						//	mouse: true
+						//},
 
 						//target: [x+3, y+3],
 						adjust: {
@@ -2086,15 +1906,11 @@ main.cym = main.cym || {};
 	}
 
 	cym.cy_reload = function (json,merge) {
-		//qtip_ensure();
 		cy_config.container = document.getElementById('cy');
 		cy_config2.container = document.getElementById('cy_scratch');
-		//cy = cytoscape(cy_config);
-		//var cy2 = cytoscape(cy_config2);
 		var cy2;
 		current_url_node=null;
 
-		//!!!!!!!!
 		var post_process = function () {
 			cy.nodes().addClass('ids');
 			cy_add_metadata(cy.nodes());
@@ -2111,7 +1927,6 @@ main.cym = main.cym || {};
 				var data = query_graph_common.derive_data({url: highlight_url});
 
 				activate_node(data);
-				//mark_current(highlight_url, data.key, 1);
 			}
 
 			if (cy.nodes().length) {
@@ -2210,87 +2025,6 @@ main.cym = main.cym || {};
 			cy.layout(lay_options[i]);
 
 		});
-
-/*
-
-    cy.on('click','node', function(event){
-          var target = event.cyTarget;
-          var sourceName = "source";//target.data("source");
-          var targetName = "target"; //target.data("target");
-
-          var x=event.cyPosition.x;
-          var y=event.cyPosition.y;
-
-
-              $("#box").qtip({
-                content: {
-                  title:targetName,
-                  text: sourceName
-                },
-                show: {
-                  delay: 0,
-                  event: false,
-                  ready: true,
-                  effect:false
-
-                },
-                position: {
-                  my: 'bottom center',
-                  at: 'top center',
-
-                  target: [x+3, y+3],
-                  adjust: {
-                    x: 7,
-                    y:7
-
-                  }
-
-                },
-                hide: {
-                  fixed: true,
-                  event: false,
-                  inactive: 2000
-
-                },
-
-
-                style: {
-                  classes: 'ui-tooltip-shadow ui-tooltip-youtube',
-
-                  tip:
-                  {
-                    corner: true,
-                    width: 24,         // resize the caret
-                    height: 24         // resize the caret
-                  }
-
-                }
-
-            })
-          });
-
-  //*/
-
-/*
-    1==0 && cy.elements().qtip({
-      content: function(){ return 'Example qTip on ele ' + this.id() },
-      position: {
-        my: 'top center',
-        at: 'bottom center'
-      },
-      style: {
-        classes: 'qtip-bootstrap',
-        tip: {
-          width: 16,
-          height: 8
-        }
-      }
-      , show :  {
-        event : 'mouseover'
-      }
-    });
-
-  */
 	}
 
 	cym.init_combobox = function () {

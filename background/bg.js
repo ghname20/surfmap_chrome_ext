@@ -1,7 +1,5 @@
 var BG=BG||{};
 (function(BG) {
-//	var backend_key = "backend_site_address";
-//	var verbose_logging_key = "verbose_logging";
 
 	var backend;
 	var verbose_logging;
@@ -207,31 +205,6 @@ var BG=BG||{};
 						results[name] = value;
 					}
 				});
-	/*
-						if (!v || !v.length) {
-							return ({
-								result: "success",
-								data: undefined,
-								message: "no results"
-							});
-
-						}
-						var c = v.children("base64");
-						if ( !! c && c.length > 0) {
-							return ({
-								result: "success",
-								data: atob(c.text())
-							});
-
-						}
-					}
-					else if ($name == {
-						//code
-					}
-					return undefined;
-				}).filter(function() { return this!=undefined })
-				;
-				*/
 
 				aux.log('processSuccess: callback: ', 0, results);
 				if (results['result'] === undefined) {
@@ -244,17 +217,6 @@ var BG=BG||{};
 					aux.log('processSuccess: callback: ', 0, results);
 					cb(results);
 				}
-	/*
-				if (t && t.length > 0) {
-					cb(t[0]);
-				}
-				else {
-					cb({
-						result: "failure",
-						message: "no results"
-					});
-				}
-				*/
 			}
 		}
 
@@ -400,24 +362,6 @@ var BG=BG||{};
 		}
 		if (_debug)
 			debugger;
-	/*	if (tab.openerTabId!=undefined) {
-			chrome.tabs.get(tab.openerTabId, function (ptab) {
-				var clicked = {
-						request: "clicked",
-						parent: ptab.url,
-						url: tab.url,
-						type: 'click'
-						//oid : oid,
-						//index: index
-				};
-				aux.log("update_tab(oid): [" + tab.id+"] "+ tab.url + " moving to the new tab: [" + ptab.id+"] "+  ptab.url, 0, clicked);
-		// ======= request
-				tab_clicked(clicked);
-
-			});
-		}
-		else
-		*/
 		if (changeInfo.url != undefined && changeInfo.url!=tab.url) {
 				var clicked = {
 						request: "clicked",
@@ -437,8 +381,6 @@ var BG=BG||{};
 
 	var create_tab_action = function(tab) {
 		aux.log("create_tab_action: tab", "", tab);
-		//if (_debug)
-		//	debugger;
 
 		if (tab.openerTabId!=undefined) {
 			chrome.tabs.get(tab.openerTabId, function (ptab) {
@@ -446,11 +388,6 @@ var BG=BG||{};
 					runtime_errors++;
 					return;
 				}
-				//r index = _tab.index == undefined ? undefined : _tab.index + 1;
-				//var oid = _tab.id;
-				//if (oid === undefined || oid === null) {
-				//	aux.log("*** current page has no id: " + _tab.url, 0);
-				//}
 
 				var navigation = {
 						request: "clicked",
@@ -482,11 +419,6 @@ var BG=BG||{};
 	var create_nav_target = function(details) {
 		if (_nav_debug) debugger;
 		aux.log("create_nav_target", 0, details);
-		// not ignoring frame navigation because it's a new tab
-		//if (details.rameId!=0) {
-		//	aux.log("create_nav_target: ignoring frame navigation", 0, details);
-		//	return;
-		//}
 		var tab = tabs[details.sourceTabId];
 		if (tab) {
 			tab_data[details.tabId] = jQuery.extend((tab_data[details.tabId]||{}),
@@ -496,11 +428,6 @@ var BG=BG||{};
 		else {
 			aux.log("no tab found");
 		}
-		//else {
-		//	chrome.tabs.get(details.sourceTabId, function (ptab) {
-		//		tab_data[details.tabId] = { navtgt: details, source_url: ptab.url};
-		//	});
-		//}
 	}
 
 /*
@@ -539,21 +466,6 @@ timeStamp ( double ) The time when the browser was about to start the navigation
 			data.b4comm.source_url=data.b4comm.source_url||tab.url;
 			data.next_url = details.url;
 			tab_data[details.tabId] = data;
-
-			//if (data.next_url != tab.url ){ // TODO: might be wrong
-			//	data.b4comm.source_url=tab.url;
-			//	if (data.next_url!=null) {
-			//		aux.log("unexpected next url: " + data.next_url +", source url:" + data.b4comm.source_url)
-			//	}
-			//}
-			//else {
-			//	aux.log("looks like a continuation: "+data.next_url)
-			//}
-			//data.next_url = details.url;
-			//tab_data[details.tabId] = data;
-			//, source_url: tab.url
-			//tab_data[details.tabId] = jQuery.extend((tab_data[details.tabId]||{}),
-			//					{ b4comm: { details: details, source_url: tab.url}, next_url: details.url }) ;
 		}
 		else {
 			aux.log("no tab found: "+details.tabId);
@@ -645,8 +557,6 @@ timeStamp ( double ) The time when the browser was about to start the navigation
 			}
 
 			source_url= tgt.b4comm.source_url;
-			//target_url = tgt.next_url;
-			//final_url = details.url;
 			source_id = target_id= details.tabId;
 			if (source_url=="" && source_url==undefined) {
 				aux.log("source url empty");
@@ -659,8 +569,6 @@ timeStamp ( double ) The time when the browser was about to start the navigation
 			aux.log("no tab matching the event");
 			return;
 		}
-
-		//delete tab_data[details.tabId];
 
 		tab_data[details.tabId]['committed_url']=target_url;
 
@@ -687,15 +595,11 @@ timeStamp ( double ) The time when the browser was about to start the navigation
 		console.log("tab statistics:", stats);
 		// ======= request
 
-
-		//var params = $.extend({}, {method : 'query_storage'} );
 		graph_svc_call(nav_info, function (response) {
 						aux.log("navigated: result: " + response.result, 0);
 
 		});
 
-
-		//navigated(nav_info);
 	}
 	var on_tab_updated = function(tabId, changeInfo, tab) {
 		if (1 || verbose_logging) {
@@ -720,7 +624,6 @@ timeStamp ( double ) The time when the browser was about to start the navigation
 						operation: 'update_final_url',
 					};
 
-					//var params = $.extend({}, {method : 'query_storage'} );
 					graph_svc_call(update_info, function (response) {
 						aux.log("completed_loading: result: " + response.result, 0);
 					});
@@ -963,28 +866,6 @@ timeStamp ( double ) The time when the browser was about to start the navigation
 						}
 					});
 				}
-				/*
-				else if (msg.request == "get_stats" || msg.request == "update_stats" ) {
-					if (_debug) debugger;
-					var obj = $.extend(obj, {method : 'get_stats'} );
-					graph_svc_call(obj, function (obj) {
-						aux.log("get_stats: result: " + obj.result, 0);
-
-						//======= response
-						obj['request'] = undefined;
-						obj['response'] = 'stats';
-						if (sender.tab && sender.tab.id) {
-							aux.log("sending data to " + (sender.tab.id, 0), obj);
-							chrome.tabs.sendMessage(sender.tab.id, obj);
-						}
-						else if (sender.id) {
-							aux.log("sending data to " + (sender.id, 0), obj);
-							chrome.runtime.sendMessage(sender.id, obj);
-						}
-					});
-
-				}
-				//*/
 				else if (msg.request=="save_new_elements") {
 					if (_debug) debugger;
 					var params = $.extend(msg, {method : 'save_new_elements'} );
@@ -1180,8 +1061,6 @@ timeStamp ( double ) The time when the browser was about to start the navigation
 								tabs[tab.id] = { url: tab.url} ;
 						});
 
-						//chrome.tabs.onCreated.addListener(create_tab_action);
-						//chrome.tabs.onUpdated.addListener(update_tab_action);
 						//integer tabId, object changeInfo, Tab tab
 						chrome.tabs.onUpdated.addListener(on_tab_updated);
 						// integer tabId, object removeInfo
@@ -1193,9 +1072,9 @@ timeStamp ( double ) The time when the browser was about to start the navigation
 
 
 
-						// onBeforeNavigate -> onCommitted -> onDOMContentLoaded -> onCompleted
-	// create_nav_target ->  before_nav ->  link_committed
-						debugger;
+// onBeforeNavigate -> onCommitted -> onDOMContentLoaded -> onCompleted
+// create_nav_target ->  before_nav ->  link_committed
+//						debugger;
 						chrome.webNavigation.onCreatedNavigationTarget.addListener(create_nav_target);
 						chrome.webNavigation.onCommitted.addListener( link_committed);
 						chrome.webNavigation.onBeforeNavigate.addListener(before_nav);
