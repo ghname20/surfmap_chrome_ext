@@ -1,0 +1,65 @@
+{
+  "manifest_version": 2,
+
+  "name": "kmg_ext",
+  "description": "test query graph",
+  "version": "1.0",
+  "icons": {
+    "16": "images/icon_16.png",
+    "48": "images/icon_48.png",
+    "128": "images/icon_128.png"
+  },
+
+  "background": {
+    "scripts": ["libs/jquery-2.1.3.js", "common/auxiliary.js", "background/bg.js"]
+    //["bmks_bg.js"]
+  },
+  "content_scripts": [],
+  "options_page": "options/options.html",
+
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_title": "Browser Action"
+    // optional; shown in tooltip
+//    "default_popup": "popup/popup.html"
+  },
+
+  //"page_action": {
+  //  "default_icon": "icon.png",
+  //  "default_title": "Page Action",
+  //  // optional; shown in tooltip
+  //  "default_popup": "addbmk.html"
+  //},
+  "commands": {
+    "_execute_browser_action": {
+    //"_execute_page_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+3"
+      },
+      "description": "browser action"
+    },
+    "open_report": {
+      //"suggested_key": {
+      //  "default": "Alt+Shift+6"
+      //},
+      "description": "open a report"
+    },
+    "options_page": { // TODO: - call any test functions from options
+      "suggested_key": {
+        "default": "Alt+Shift+4"
+      },
+      "description": "options page"
+    }
+
+  },
+
+  "permissions": [ //"commands",
+    "http://*/", "file://*/", "file://*/*", "bookmarks", "tabs", "windows", "activeTab", "storage", "unlimitedStorage", "webNavigation"]
+
+  ,"web_accessible_resources": [
+//"chrome-extension://jhfpbldkagcaijkjcklbdccomadpedae/options/libs/*",
+//"chrome-extension://jhfpbldkagcaijkjcklbdccomadpedae/options/libs/jquery-2.1.3.js",
+  "images/*.png","images/*.gif", "libs/*.js","libs/*.css", "common/*.js", "popup/open_main_window.js"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

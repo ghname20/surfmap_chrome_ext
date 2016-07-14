@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<head>
+<link rel="stylesheet" href="/libs/jquery-ui.css">
+<link rel="stylesheet" href="/libs/jquery.qtip.css">
+<link rel="stylesheet" href="/libs/jquery.multiselect.css">
+<!--<script src="/libs/jquery-2.1.3.js"></script>-->
+<script src="/libs/jquery-1.10.2.js"></script>
+<script src="/libs/jquery-ui.js"></script>
+<script src="/libs/keycodelib.js" type="text/javascript"></script>
+<script src="/libs/jquery.qtip.js" type="text/javascript"></script>
+<script src="/libs/cytoscape.js" type="text/javascript"></script>
+<script src="/libs/cytoscape-qtip.js" type="text/javascript"></script>
+<script src="/libs/cytoscape-cxtmenu.js" type="text/javascript"></script>
+
+
+
+<script src="/libs/jq_combobox.js"></script>
+<script src="/libs/jquery.multiselect.js"></script>
+<script src="/libs/jq_multi_combo.js"></script>
+<script src="/libs/cola.v3.min.js"></script>
+<script src="/libs/arbor.js"></script>
+<script src="/libs/springy.js"></script>
+<script src="/libs/dagre.js"></script>
+
+<script src="/common/auxiliary.js"></script>
+<script src="/libs/cytoscape-arbor.js"></script>
+<script src="/libs/cytoscape-cose-bilkent.js"></script>
+<script src="/libs/cytoscape-dagre.js"></script>
+<script src="/libs/cytoscape-spread.js"></script>
+<script src="/libs/cytoscape-springy.js"></script>
+<!--<script src="/main/layout.cose2.js"></script>-->
+<!--<script src="/main/springy.js"></script>-->
+<script src="/main/cy_graph.js"></script>
+<script src="/main/main.js"></script>
+<!-- <link rel="stylesheet" href="/libs/style.css"> -->
+
+
+<style>
+#cy {
+	width: 1200px;
+	height: 800px;
+	display: block;
+	border: solid;
+	border-width: 2px;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	min-width: 400px;
+	height: 250px;
+}
+
+input[type=text] {
+	border: 1px solid #aaa;
+	box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
+	border-radius: 2px;
+	height: 27px;
+	width: 300px;
+	padding: 3px;
+	color: #555555;
+	font-size: 16px;
+}
+
+input:focus[type=text] {
+	background: #fff;
+	border: 1px solid;
+	border-color: #555;
+	box-shadow: 0 0 3px #aaa;
+	outline-style: none;
+}
+
+input.invalid, input.invalid:focus {
+	border-color: red;
+}
+
+.button {
+	-moz-box-shadow: inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow: inset 0px 1px 0px 0px #ffffff;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed
+		), color-stop(1, #dfdfdf));
+	background: -moz-linear-gradient(center top, #ededed 5%, #dfdfdf 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed',
+		endColorstr='#dfdfdf');
+	background-color: #ededed;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #dcdcdc;
+	display: inline-block;
+	color: #777777;
+	font-family: arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 6px 18px;
+	text-decoration: none;
+	text-shadow: 1px 1px 0px #ffffff;
+}
+
+.button:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf
+		), color-stop(1, #ededed));
+	background: -moz-linear-gradient(center top, #dfdfdf 5%, #ededed 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf',
+		endColorstr='#ededed');
+	background-color: #dfdfdf;
+	cursor: pointer;
+}
+
+.button:active {
+	position: relative;
+	top: 1px;
+}
+
+.button:disabled {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf
+		), color-stop(1, #ededed));
+	background: -moz-linear-gradient(center top, #dfdfdf 5%, #ededed 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf',
+		endColorstr='#ededed');
+	background-color: #dfdfdf;
+	cursor: default;
+	top: 0px;
+}
+
+/* GUI */
+div#status {
+	width: 100%;
+	min-height: 5px;
+}
+
+div#status.ok {
+	visibility: visible;
+	color: green;
+}
+
+div#status.progress {
+	visibility: visible;
+	color: gray;
+}
+
+div#status.error {
+	visibility: visible;
+	color: red;
+}
+
+div#show_stats {
+	visibility: hidden;
+	display: none;
+}
+
+div#show_stats.visible {
+	visibility: visible;
+	display: block;
+	font-family: sans-serif;
+	font-size: larger;
+}
+
+div#show_request {
+	visibility: hidden;
+	display: none;
+}
+
+div#show_request.visible {
+	visibility: visible;
+	display: block;
+	font-family: sans-serif;
+	font-size: larger;
+}
+
+div#show_meta {
+	visibility: hidden;
+	display: none;
+}
+
+div#show_meta.visible {
+	visibility: visible;
+	display: block;
+	font-family: sans-serif;
+	font-size: larger;
+}
+
+.url_controls {
+	width: 95%;
+}
+
+.url_controls>table {
+	width: 90%;
+	max-width: 800px;
+	min-width: 400px;
+}
+
+/*.url_controls>table tr {*/
+/*	width:100%*/
+/*}*/
+
+.url_controls>table td {
+	/*padding: 5px;*/
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.url_controls>table input {
+	/*padding: 5px;*/
+	width:100%;
+}
+
+.url_controls>table textarea {
+	/*padding: 5px;*/
+	width:100%;
+}
+
+
+.url_controls>table td.small_td {
+	width: 50px;
+	max-width: 50px;
+}
+.url_controls>table td.wide_td {
+	width: 300px;
+	min-width: 300px;
+}
+.url_controls>table td.text_td {
+	min-width: 300px;
+}
+
+/*.url_controls>table td.main_td > input{*/
+/*	/*padding: 5px;*/*/
+/*	width: 100%;*/
+/*}*/
+/**/
+
+/*.url_controls>table tr:nth-child(1)>input {*/
+/*	min-width: 500px;*/
+/**/
+/*}*/
+
+/*.url_controls>table tr:nth-child(2) td:nth-child(1) {*/
+/*	/*min-width:80px;*/*/
+/*	max-width: 80px;*/
+/*	/*width: 1%;*/*/
+/*}*/
+/**/
+
+.url_controls>table td>div {
+	width: 100%
+}
+
+/*.url_controls>table>tbody>tr>td>textarea {*/
+/*	/*width: 100%;*/*/
+/*	min-width: 150px;*/
+/*}*/
+
+/*.url_controls>table td:nth-child(4) {*/
+/*	min-width: 30px;*/
+/*	max-width: 50px;*/
+/*	width: 1%;*/
+/*}*/
+
+/*.url_controls>table.peer_controls td#link_td {*/
+/*	min-width: 50px;*/
+/*	max-width: 100px;*/
+/*	/*display: inline;*/*/
+/*	/*margin: 0 auto;*/*/
+/*}*/
+
+/*/*.url_controls > table td input.peer_key {*/*/
+/*.url_controls>table.peer_controls td#peer_td {*/
+/*	/*display: inline;*/*/
+/*	/*margin: 0 auto;*/*/
+/*	width: 100%;*/
+/*}*/
+
+.url_controls>table td p {
+	width: 100%;
+}
+
+div#url_control_status>p {
+	color: red
+}
+
+/*
+ .url_controls > table td:nth-child(2) {
+	min-width:150px;
+	max-width: 150px;
+	width: 5%;
+}
+*/
+
+/*
+.stats_controls table, .stats_controls th, .stats_controls td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+*/
+.stats_controls {
+	width: 95%;
+}
+
+.stats_controls>table {
+	width: 90%;
+	max-width: 500px;
+}
+
+.stats_controls>table td {
+	/*padding: 5px;*/
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.stats_controls>table td:nth-child(1) {
+	min-width: 30px;
+	width: 1%;
+}
+
+.stats_controls>table td:nth-child(2) {
+	min-width: 80px;
+	max-width: 160px;
+	width: 30%;
+}
+
+.stats_controls>table td:nth-child(3) {
+	min-width: 60px;
+	width: 15%;
+}
+
+.stats_controls>table td:nth-child(4) {
+	min-width: 80px;
+	width: 40%;
+}
+
+.stats_controls>table td:nth-child(5) {
+	min-width: 80px;
+	width: 40%;
+}
+
+.stats_controls>table td>input {
+	width: 100%
+}
+
+.stats_controls>table td>div {
+	width: 100%
+}
+
+.stats_controls>table>tbody>tr>td>textarea {
+	width: 100%
+}
+
+/*.stats_controls > table td:nth-child(2) {
+	min-width:150px;
+	max-width: 150px;
+	width: 5%;
+}
+
+.stats_controls > table td:nth-child(4) {
+	min-width:150px;
+	width: 100%;
+}
+
+.stats_controls > table td:nth-child(6) {
+	min-width:100px;
+	width: auto;
+}
+*/
+</style>
+
+
+</head>
+<!--<body style="text-align: left; width: 1000px; height:400px">-->
+<body style="text-align: left; width: 1200px;">
+	<div id="container" style="width: 100%; display: table">
+		<div id="row1" style="display: table-row">
+			<div id="left_pane" tabindex="-1" style="width: 400px; display: table-cell; ">
+				<div id="request_div_id" class="request_div" style="visibility: visible">
+					<table class="request_tab">
+						<tr>
+							<td><input type="radio" style="display: inline" class="request_type" id="query_radio_id" name="request_type"
+									value="url" checked="checked" /> <input type="radio" style="display: inline" name="request_type"
+									id="tab_radio_id" value="tab" /> <input tabindex="100" type="edit" class="edit_request"
+									name="edit_new_tab_url" id="edit_new_tab_url" value="new tab" style="visibility: hidden" /> <input
+									tabindex="10" type="edit" class="edit_request" name="edit_google_search_query" id="edit_google_search_query"
+									value="google search query" /></td>
+							<td><input tabindex="110" type="button" id="btn_new_tab" /></td>
+						</tr>
+					</table>
+				</div>
+
+				<div id="ref_tab_div" class="ui-widget url_controls" style="text-align: left">
+					<table class="node_controls">
+						<tr>
+							<td id="url_td"  class="wide_td" colspan=5><input tabindex="40"  type="edit" id="edit_current_URL" value="" /></td>
+							<td colspan=1><input type="button" id="btn_find_url" tabindex="40" value="find" /></td>
+
+						</tr>
+						<tr>
+							<td class="small_td" ><input  tabindex="40" type="edit" name="edit_node_type" id="edit_node_type" value="" /></td>
+							<td id="key_td"  class="wide_td" colspan=4><input tabindex="40" type="edit" id="edit_current_key" data-cy_id value="" /></td>
+							<td colspan=1><input type="button" id="btn_find_key" tabindex="40" value="find" /></td>
+						</tr>
+						<tr>
+							<td rowspan=4 colspan=3 class="text_td"><textarea rows=5 tabindex="50" name="edit_comment" id="edit_comment" value=""></textarea></td>
+						</tr>
+						<tr>
+							<!--					<td><input tabindex="10" type="edit" name="edit_google_search_query" id="edit_google_search_query" value="google search query" /></td>-->
+							<!--<td><input tabindex="120" type="button" id="btn_google_search_query" /></td>-->
+							<td>rtg</td>
+							<td class="small_td"  ><input tabindex="50" type="edit"  name="edit_rating" id="edit_rating" value="0" /></td>
+						</tr>
+						<tr>
+							<td>prio</td>
+							<td class="small_td"  ><input tabindex="50" type="edit" name="edit_priority" id="edit_priority" value="0" /></td>
+							<!--<td>node&nbsp;type:</td>-->
+							<td></td>
+						</tr>
+						<tr>
+							<td><input tabindex="52" type="button" id="btn_update_node_info" value="Post" /></td>
+							<td><input tabindex="52" type="button" id="btn_get_node_info" value="Refresh" /></td>
+						</tr>
+						<!--<tr>
+							<td colspan=2 id="url_control_status" >
+								<div id="url_control_status" style="text-align: center; width:100%; min-height:5px;"><span></span></div>
+							</td>
+						</tr>-->
+					</table>
+					<table class="peer_controls">
+						<tr>
+							<td id="link_td" class ="small_td"><input tabindex="60" type="edit" id="edit_edge_type" class="edge_type" data-cy_id
+									value="" /></td>
+							<td id="peer_td" class="wide_td" ><input tabindex="60" type="edit" id="edit_peer_key" class="peer_key" data-cy_id value="" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div id="right_pane" style="width: 500px; margin-left: 500px; display: table-cell">
+				<div id="results" tabindex="-1">
+					<!--<div id="data" style="visibility: hidden; border-bottom: solid;border-width: 1px; width:100%; min-height:5px;"></div>-->
+					<div id="message"></div>
+					<!--<div id="loading" style="visibility: hidden "><img style="visibility: hidden" src="/images/loading-big-2a.gif"/></div>-->
+				</div>
+				<div id="stat_part" class="stats_controls" style="width: auto">
+					<table>
+						<tr>
+							<td><input tabindex="14" type="button" style="width: 100%" id="btn_new_session" value="session:" /></td>
+							<!--<td><input tabindex="60" type="edit" name="session" id="edit_session" value=""/></td>-->
+							<td colspan=1><select id="current_combo" multiple="multiple" size="5" tabindex="15">
+							</select></td>
+							<td colspan=3><select id="selection_combo" multiple="multiple" size="5" tabindex="16">
+							</select>
+								<div id="session_dropdown_div" class="ui-widget" style="text-align: left" style="display:none">
+									<select id="session_dropdown_combobox" tabindex="15" style="display: none;">
+									</select>
+								</div></td>
+							<td>
+								<p>
+									<input tabindex="18" type="checkbox" title="reset selection" name="reset" id="cb_reset_selection"
+										checked="checked" />
+									<span style="text-align: right; display: inline; width: 50px; min-width: 50px; max-width: 50px">reset</span>
+								</p>
+							</td>
+						</tr>
+						<tr id="current_selection_row" style="display: none">
+							<td colspan=1>enter:</td>
+							<!--<td><input tabindex="60" type="edit" name="session" id="edit_session" value=""/></td>-->
+							<td colspan=1>
+								<div id="current_selection_div" class="ui-widget" style="text-align: left">
+									<input tabindex="60" type="edit" name="edit_current_selection" id="edit_current_selection" value="" />
+								</div>
+							</td>
+							<td colspan=4></td>
+						</tr>
+						<tr>
+							<td>filter:</td>
+							<td colspan=4><textarea rows=1 tabindex="20" type="textarea" name="filter" id="edit_filter" value=""></textarea></td>
+							<td rowspan=3 style="border: solid; border-width: 1px"><input tabindex="80" type="button"
+									style="width: 100%" id="btn_request" value="request" /> <input tabindex="90" type="button" style="width: 100%"
+									id="btn_save_new_elements" value="save" /> <input tabindex="93" type="button" style="width: 100%"
+									id="btn_get_requests" value="new requests" /></td>
+							<td rowspan=3 style="border: solid; border-width: 1px"><input tabindex="94" type="button"
+									style="width: 100%" id="btn_show_stats" value="show:stats" /> <input tabindex="91" type="button"
+									style="width: 100%" id="btn_show_request" value="show:request" /> <input tabindex="94" type="button"
+									style="width: 100%" id="btn_show_meta" value="show:metadata" /></td>
+						</tr>
+						<tr>
+							<td>start:</td>
+							<td><input tabindex="60" type="edit" name="edit_range_start" id="edit_range_start" value="" /></td>
+							<td rowspan=2>
+								<p>
+									<input tabindex="20" type="checkbox" title="merge_results" name="single" id="cb_merge_results" />
+									<span style="text-align: right; display: inline; width: 50px; min-width: 50px; max-width: 50px">Merge</span>
+								</p>
+								<p>
+									<input tabindex="20" type="checkbox" title="compute relevance" name="single" id="cb_compute_relevance" />
+									<span style="text-align: right; display: inline; width: 50px; min-width: 50px; max-width: 50px">Comp</span>
+								</p>
+							</td>
+							<td rowspan=2>
+								<p>
+									<input tabindex="20" type="checkbox" title="expand subgraph" name="expand" id="cb_expand" checked="checked" />
+									<span style="text-align: right; display: inline; width: 50px; min-width: 50px; max-width: 50px">Expand</span>
+								</p>
+								<p>
+									<input tabindex="20" type="checkbox" title="isolated nodes" name="single" id="cb_single" />
+									<span style="text-align: right; display: inline; width: 50px; min-width: 50px; max-width: 50px">Single</span>
+								</p>
+							</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>end:</td>
+							<td><input tabindex="70" type="edit" name="edit_range_end" id="edit_range_end" value=""/></td>
+						</tr>
+						<tr>
+					</table>
+					<div id='diagnostics'>
+						<div id='show_request' style="width: 100%">
+							<input type="edit" style="width: 100%" value="" />
+						</div>
+						<div id='show_stats' style="width: 100%">
+							<span style="width: 100%"></span>
+						</div>
+						<div id='show_meta' style="width: 100%">
+							<span style="width: 100%"></span>
+						</div>
+					</div>
+					<input type="button" name="scratch_data" id="cy_load_scratch_data" value="scratch_data" />
+					<input type="button" name="cy_toggle_names" id="cy_toggle_names" value="ids" style="width: 100px" />
+
+
+					<div id="layout_dropdown_div" class="ui-widget" style="text-align: left">
+						<select id="layout_dropdown_combobox" style="display: none;">
+						</select>
+					</div>
+
+					<div id="status" class="status">
+						<span></span>
+					</div>
+					<div id="test" style="display: none">
+						<pre> <div id="stats_filtered" style="font-size: medium" /> </pre>
+						<div id="stats" style="visibility: hidden; font-size: medium; width: 300px"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="row2" style="display: table-row">
+		</div>
+	</div>
+	<div id="cy"></div>
+	<div id="cy_scratch" style="display:none"></div>
+
+
+</body>
+</html>
