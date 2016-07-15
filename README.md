@@ -2,6 +2,8 @@
 ## A chrome extension to work with surfmapper
 
 **Surfmapper** is a project designed to keep track of browsing history and visualize it in a node graph.  
+The project's main incentive was to handle huge navigation graphs outside of the browser, because otherwise it would hog too much memory.  
+
 This chrome extension provides UI for the project.  
 It stores history of searches (currently Google search) and user navigation in the dedicated surfmap\_storage system.  
 It allows to run queries against the storage and visualizes the results using Cytoscape.js library.  
